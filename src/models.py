@@ -1,7 +1,7 @@
 import os
 import sys
 import enum
-from sqlalchemy import Column, ForeignKey, Integer, String, Enum, Text
+from sqlalchemy import Column, ForeignKey, Integer, String, Enum, Text, DateTime
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
@@ -21,6 +21,7 @@ class User(Base):
     email = Column(String(250), primary_key=True)
     first_name = Column(String(250), nullable=False)
     last_name = Column(String(250), nullable=False)
+    created_at = Column(DateTime, nullable=False)
 
 class Follower(Base):
     __tablename__ = 'follower'
@@ -35,6 +36,8 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    created_at = Column(DateTime, nullable=False)
+    modified_at = Column(DateTime, nullable=False)
 
 class Media(Base):
     __tablename__ = 'media'
@@ -52,6 +55,7 @@ class Comment(Base):
     post_id = Column(Integer, ForeignKey('post.id'))
     author_id = Column(Integer, ForeignKey('user.id'))
     comment_text = Column(Text, nullable=False)
+    created_at = Column(DateTime, nullable=False)
     post = relationship(Post)
     user = relationship(User)
 
